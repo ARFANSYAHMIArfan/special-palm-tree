@@ -2,8 +2,8 @@
 VOTERA2526 PROJECT
 
 Admin Login:
-username: admin
-password: admin123
+username: mzadmin
+password: 
 
 Setup:
 1. Import database.sql in phpMyAdmin
