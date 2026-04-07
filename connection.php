@@ -1,12 +1,12 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "votera2526";
+$host = "sql111.infinityfree.com";
+$user = "if0_41597545";
+$pass = "Arfan2009";
+$db   = "if0_41597545_votera2526";
 
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+$conn = mysqli_connect($host, $user, $pass, $db);
+
+if (!$conn) {
+    die("Gagal sambung ke database: " . mysqli_connect_error());
 }
-$conn->set_charset('utf8mb4');
 ?>
