@@ -1,8 +1,10 @@
 <?php
 include 'connection.php';
+$pageTitle = "Log Masuk Pentadbir";
 include 'header.php';
 
-$msg = '';
+$msg = "";
+
 if (isset($_POST['login_admin'])) {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
@@ -14,33 +16,48 @@ if (isset($_POST['login_admin'])) {
 
     if ($result->num_rows === 1) {
         $admin = $result->fetch_assoc();
+
         if (password_verify($password, $admin['password'])) {
             session_regenerate_id(true);
             $_SESSION['admin_id'] = $admin['id'];
             $_SESSION['admin_name'] = $admin['nama'];
             $_SESSION['admin_role'] = $admin['role'];
-            header('Location: admin-dashboard.php');
+
+            header("Location: admin-dashboard.php");
             exit;
         }
     }
-    $msg = "<div class='alert error'>Gagal Log Masuk Pentadbir.</div>";
+
+    $msg = "<div class='alert error'>Nama Pengguna atau Kata Laluan tidak sah.</div>";
 }
 ?>
-<div class="card" style="max-width:500px;margin:auto;">
-    <h2>Login Admin</h2>
-    <?= $msg ?>
-    <form method="post">
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" name="username" required>
+
+<div class="auth-page auth-page-admin">
+    <div class="auth-particles"></div>
+
+    <div class="auth-card auth-card-admin">
+        <div class="auth-glow-border"></div>
+
+        <div class="auth-inner">
+            <h2 class="auth-title">🧑‍💼 Log Masuk Pentadbir</h2>
+
+            <?= $msg ?>
+
+            <form method="post" class="auth-form">
+                <div class="auth-input-group">
+                    <span class="auth-icon">👤</span>
+                    <input type="text" name="username" placeholder="Nama Pengguna" required>
+                </div>
+
+                <div class="auth-input-group">
+                    <span class="auth-icon">🔒</span>
+                    <input type="password" name="password" placeholder="Kata Laluan" required>
+                </div>
+
+                <button type="submit" name="login_admin" class="btn auth-login-btn">Log Masuk</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="password" required>
-        </div>
-        <div class="form-group">
-            <button type="submit" name="login_admin" class="btn">Log Masuk Pentadbir</button>
-        </div>
-    </form>
+    </div>
 </div>
+
 <?php include 'footer.php'; ?>

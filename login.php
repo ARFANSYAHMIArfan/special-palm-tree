@@ -1,11 +1,10 @@
 <?php
-
-$pageTitle = "Log Masuk Pelajar";
-
 include 'connection.php';
+$pageTitle = "Log Masuk Pelajar";
 include 'header.php';
 
 $msg = "";
+
 if (isset($_POST['login'])) {
     $id = trim($_POST['Id_Pelajar']);
     $pass = $_POST['Kata_Laluan'];
@@ -17,32 +16,46 @@ if (isset($_POST['login'])) {
 
     if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
+
         if (password_verify($pass, $row['Kata_Laluan'])) {
             session_regenerate_id(true);
             $_SESSION['Id_Pelajar'] = $row['Id_Pelajar'];
             $_SESSION['Nama_Pelajar'] = $row['Nama_Pelajar'];
-            header('Location: dashboard.php');
+            header("Location: dashboard.php");
             exit;
         }
     }
-    $msg = "<div class='alert error'>Login gagal. Sila semak ID atau kata laluan.</div>";
+
+    $msg = "<div class='alert error'>ID Pelajar atau Kata Laluan tidak sah.</div>";
 }
 ?>
-<div class="card" style="max-width:500px; margin:auto;">
-    <h2>Login Pelajar</h2>
-    <?= $msg ?>
-    <form method="post">
-        <div class="form-group">
-            <label>ID Pelajar</label>
-            <input type="text" name="Id_Pelajar" required>
+
+<div class="auth-page auth-page-student">
+    <div class="auth-particles"></div>
+
+    <div class="auth-card auth-card-student">
+        <div class="auth-glow-border"></div>
+
+        <div class="auth-inner">
+            <h2 class="auth-title">👨‍🎓 Log Masuk Pelajar</h2>
+
+            <?= $msg ?>
+
+            <form method="post" class="auth-form">
+                <div class="auth-input-group">
+                    <span class="auth-icon">🪪</span>
+                    <input type="text" name="Id_Pelajar" placeholder="ID Pelajar" required>
+                </div>
+
+                <div class="auth-input-group">
+                    <span class="auth-icon">🔒</span>
+                    <input type="password" name="Kata_Laluan" placeholder="Kata Laluan" required>
+                </div>
+
+                <button type="submit" name="login" class="btn auth-login-btn">Log Masuk</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label>Kata Laluan</label>
-            <input type="password" name="Kata_Laluan" required>
-        </div>
-        <div class="form-group">
-            <button type="submit" name="login" class="btn">Login</button>
-        </div>
-    </form>
+    </div>
 </div>
+
 <?php include 'footer.php'; ?>
